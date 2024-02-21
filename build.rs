@@ -100,7 +100,7 @@ fn is_msvc() -> bool {
 fn build_xzing_cpp() {
     let root = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
     let cpp_flags: &[&str] = if is_msvc() {
-        &["/std:c++17", "/EHsc"]
+        &["/std:c++20", "/EHsc", "/Zc:__cplusplus"]
     } else {
         &["-std=c++20"]
     };
@@ -113,6 +113,7 @@ fn build_xzing_cpp() {
     build
         .cpp(true)
         .include(root.join("zxing-cpp").join("core").join("src"))
+        .define("ZUECI_EMBED_NO_TO_ECI", None)
         .define("NDEBUG", None)
         .files(
             ZXING_CPP_SRC
