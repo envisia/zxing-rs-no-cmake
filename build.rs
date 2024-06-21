@@ -1,33 +1,36 @@
 use std::{env, path::PathBuf};
 
 const ZXING_CPP_SRC: &[&str] = &[
+    "Barcode.cpp",
     "BarcodeFormat.cpp",
-    "BitArray.cpp",
     "BitMatrix.cpp",
     "BitMatrixIO.cpp",
-    "ConcentricFinder.cpp",
+    "CharacterSet.cpp",
+    "Content.cpp",
     "ECI.cpp",
+    "Error.cpp",
+    "GTIN.cpp",
+    "ReadBarcode.cpp",
+    "Utf.cpp",
+    "WriteBarcode.cpp",
+    "ZXingCpp.cpp",
+    "ZXingC.cpp",
+    "BitArray.cpp",
     "GenericGF.cpp",
     "GenericGFPoly.cpp",
-    "GTIN.cpp",
-    "Utf.cpp",
-    "ZXBigInteger.cpp",
     "BinaryBitmap.cpp",
     "BitSource.cpp",
-    "Content.cpp",
+    "ConcentricFinder.cpp",
     "GlobalHistogramBinarizer.cpp",
     "GridSampler.cpp",
     "HRI.cpp",
     "HybridBinarizer.cpp",
     "MultiFormatReader.cpp",
     "PerspectiveTransform.cpp",
-    "ReadBarcode.cpp",
     "ReedSolomonDecoder.cpp",
-    "Result.cpp",
     "ResultPoint.cpp",
     "TextDecoder.cpp",
     "WhiteRectDetector.cpp",
-    "ZXingC.cpp",
 
     "aztec/AZDecoder.cpp",
     "aztec/AZDetector.cpp",
@@ -59,6 +62,7 @@ const ZXING_CPP_SRC: &[&str] = &[
     "oned/ODMultiUPCEANReader.cpp",
     "oned/ODReader.cpp",
 
+    "pdf417/ZXBigInteger.cpp",
     "pdf417/PDFBarcodeValue.cpp",
     "pdf417/PDFBoundingBox.cpp",
     "pdf417/PDFCodewordDecoder.cpp",
@@ -112,6 +116,7 @@ fn build_xzing_cpp() {
 
     build
         .cpp(true)
+        .define("ZXING_READERS", None)
         .include(root.join("zxing-cpp").join("core").join("src"))
         .define("ZUECI_EMBED_NO_TO_ECI", None)
         .define("NDEBUG", None)
