@@ -4,7 +4,7 @@ description = "A rust wrapper for the zxing-cpp barcode library."
 # authors = ["Christian Schmitt <c.schmitt@envisia.de>"]
 license = "Apache-2.0"
 version = "0.2.2"
-edition = "2021"
+edition = "2024"
 repository = "https://github.com/envisia/zxing-rs-no-cmake/"
 readme = "README.md"
 keywords = ["zxing", "barcode", "barcode_reader", "ffi"]
@@ -20,16 +20,16 @@ image = ["dep:image"]
 bundled = []
 
 [dependencies]
-thiserror = "1.0"
+thiserror = "2.0"
 paste = "1.0"
-flagset = "0.4.4"
-image = {version = "0.24.8", optional = true}
+flagset = "0.4"
+image = {version = "0.25", optional = true}
 
 [dev-dependencies]
 cfg-if = "1.0"
 anyhow = "1.0"
-image = {version = "0.24.8"}
+image = {version = "0.25"}
 
 [build-dependencies]
 cc = { version = "1",  features = ["parallel"] }
-bindgen = "0.69"
+bindgen = "0.71"

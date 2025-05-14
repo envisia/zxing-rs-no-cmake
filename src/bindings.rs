@@ -91,7 +91,7 @@ pub struct ZXing_Position {
 	pub bottomRight: ZXing_PointI,
 	pub bottomLeft: ZXing_PointI,
 }
-extern "C" {
+unsafe extern "C" {
 	pub fn ZXing_ImageView_new(
 		data: *const u8,
 		width: ::core::ffi::c_int,

@@ -180,14 +180,16 @@ impl<'a> ImageView<'a> {
 		row_stride: U,
 		pix_stride: U,
 	) -> Result<Self, Error> {
-		let iv = ZXing_ImageView_new(
-			ptr,
-			Self::try_into_int(width)?,
-			Self::try_into_int(height)?,
-			format as ZXing_ImageFormat,
-			Self::try_into_int(row_stride)?,
-			Self::try_into_int(pix_stride)?,
-		);
+		let iv = unsafe {
+			ZXing_ImageView_new(
+				ptr,
+				Self::try_into_int(width)?,
+				Self::try_into_int(height)?,
+				format as ZXing_ImageFormat,
+				Self::try_into_int(row_stride)?,
+				Self::try_into_int(pix_stride)?,
+			)
+		};
 		if iv.is_null() {
 			Err(last_error())
 		} else {
@@ -215,12 +217,12 @@ impl<'a> ImageView<'a> {
 	}
 
 	pub fn cropped(self, left: i32, top: i32, width: i32, height: i32) -> Self {
-		unsafe { ZXing_ImageView_crop((self.0).0, left, top, width, height) }
+		unsafe { ZXing_ImageView_crop((self.0).0, left, top, width, height) };
 		self
 	}
 
 	pub fn rotated(self, degree: i32) -> Self {
-		unsafe { ZXing_ImageView_rotate((self.0).0, degree) }
+		unsafe { ZXing_ImageView_rotate((self.0).0, degree) };
 		self
 	}
 }
@@ -387,10 +389,10 @@ pub fn barcode_formats_from_string(str: impl AsRef<str>) -> Result<BarcodeFormat
 	}
 }
 
-pub fn read_barcodes<'a, IV, RO>(image: IV, opts: RO) -> Result<Vec<Barcode>, Error>
+pub fn read_barcodes<'a, IV, RO, E>(image: IV, opts: RO) -> Result<Vec<Barcode>, Error>
 where
-	IV: TryInto<ImageView<'a>>,
-	IV::Error: Into<Error>,
+	IV: TryInto<ImageView<'a>, Error = E>,
+	E: Into<Error>,
 	RO: AsRef<ReaderOptions>,
 {
 	let iv_: ImageView = image.try_into().map_err(Into::into)?;
